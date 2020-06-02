@@ -1,6 +1,5 @@
 const db = require("../../../database");
 const AccountMapper = require("../models/AccountDTO");
-const { AccountNotFound } = require("../../../errors");
 
 module.exports = username => {
   const query =
@@ -11,11 +10,7 @@ module.exports = username => {
   return new Promise((resolve, reject) => {
     db.query(query, [username])
       .then(result => {
-        if (result.rowCount > 0) {
-          resolve(AccountMapper.toEntity(result.rows[0]));
-        } else {
-          throw new AccountNotFound(username);
-        }
+        resolve(AccountMapper.toEntity(result.rows[0]));
       })
       .catch(e => reject(e));
   });
