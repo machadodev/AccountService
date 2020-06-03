@@ -25,16 +25,4 @@ router.post("/authorization/authorize", async (req, res, next) => {
   }
 });
 
-router.get("/accounts", async (req, res, next) => {
-  try {
-    const httpResponse = new HttpResponse(res);
-
-    const response = await findAllAccounts();
-
-    return httpResponse.ok(response);
-  } catch (e) {
-    next(e);
-  }
-});
-
 module.exports = router;
