@@ -5,12 +5,13 @@ const { UsernameValidator } = require("../../domain/validators");
 
 router.get("/account", async (req, res, next) => {
   try {
-    const httpResponse = new HttpResponse(res);
     const findAccountUseCase = new FindAccountUseCase(new UsernameValidator());
 
     const { username } = req.body;
 
     const response = await findAccountUseCase.findAccountByUsername(username);
+
+    const httpResponse = new HttpResponse(res);
 
     return httpResponse.ok(response);
   } catch (e) {

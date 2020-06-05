@@ -1,6 +1,4 @@
-const db = require("../../../database");
-
-module.exports = username => {
+module.exports = (database, username) => {
   const query =
     "SELECT A.user AS username, " +
     'B.pwd AS "password", ' +
@@ -14,7 +12,8 @@ module.exports = username => {
     "WHERE A.user = $1";
 
   return new Promise((resolve, reject) => {
-    db.query(query, [username])
+    database
+      .query(query, [username])
       .then(result => resolve(result.rows[0]))
       .catch(e => reject(e));
   });

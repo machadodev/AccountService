@@ -1,6 +1,4 @@
-const db = require("../../../database");
-
-module.exports = username => {
+module.exports = (database, username) => {
   const query =
     'UPDATE "AccountAuthorization" AS authz ' +
     'SET "deletedAt" = NOW() ' +
@@ -11,7 +9,8 @@ module.exports = username => {
     'RETURNING acc."user" AS username';
 
   return new Promise((resolve, reject) => {
-    db.query(query, [username])
+    database
+      .query(query, [username])
       .then(result => {
         resolve({
           affectedRows: result.rowCount,

@@ -1,3 +1,4 @@
+const db = require("../../database");
 const { findAuthorizationByUsername } = require("../authorizations/services");
 const { findAccountByUsername } = require("../accounts/services");
 const { softRemoveAuthorization } = require("../authorizations/services");
@@ -11,19 +12,19 @@ module.exports = class RevokeAuthorizationUseCase {
   async revoke(username) {
     this.usernameValidator.validate(username);
 
-    const account = await findAccountByUsername(username);
+    const account = await findAccountByUsername(db, username);
 
     if (!account) {
       throw new AccountNotFound(username);
     }
 
-    const authorization = await findAuthorizationByUsername(username);
+    const authorization = await findAuthorizationByUsername(db, username);
 
     if (!authorization) {
       throw new AuthorizationNotFound(username);
     }
 
-    const response = await softRemoveAuthorization(username);
+    const response = await softRemoveAuthorization(db, username);
 
     return response;
   }

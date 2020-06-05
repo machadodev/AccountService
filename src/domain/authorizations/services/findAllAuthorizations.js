@@ -1,7 +1,6 @@
-const db = require("../../../database");
 const AuthorizationMapper = require("../models/AuthorizationDTO");
 
-module.exports = () => {
+module.exports = database => {
   const query =
     "SELECT " +
     "A.user AS username, " +
@@ -17,7 +16,8 @@ module.exports = () => {
     'ORDER BY "expireAt" ASC';
 
   return new Promise((resolve, reject) => {
-    db.query(query)
+    database
+      .query(query)
       .then(result =>
         resolve({
           total: result.rowCount,

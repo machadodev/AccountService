@@ -1,11 +1,12 @@
+const db = require("../../database");
 const { findAuthorizationByUsername } = require("../authorizations/services");
 const { findAccountByUsername } = require("../accounts/services");
 const { findRoleByName } = require("../authorizations/services");
 const grantAccountAuthorizationService = require("../authorizations/services/grantAuthorization");
 const {
-  RoleAlreadyExists,
+  AuthorizationAlreadyExists,
   AccountNotFound,
-  RoleNotFound
+  AuthorizationNotFound
 } = require("../../errors");
 
 module.exports = class GrantAuthorizationUseCase {
@@ -21,25 +22,26 @@ module.exports = class GrantAuthorizationUseCase {
   async grant(username, rolename, pwd, expireAt) {
     this.validate(username, rolename, pwd, expireAt);
 
-    const authorization = await findAuthorizationByUsername(username);
+    const authorization = await findAuthorizationByUsername(db, username);
 
     if (authorization) {
-      throw new RoleAlreadyExists(username);
+      throw new AuthorizationAlreadyExists(username);
     }
 
-    const account = await findAccountByUsername(username);
+    const account = await findAccountByUsername(db, username);
 
     if (!account) {
       throw new AccountNotFound(username);
     }
 
-    const role = await findRoleByName(rolename);
+    const role = await findRoleByName(db, rolename);
 
     if (!role) {
-      throw new RoleNotFound(rolename);
+      throw new AuthorizationNotFound(rolename);
     }
 
     const response = await grantAccountAuthorizationService(
+      db,
       account,
       role,
       pwd,

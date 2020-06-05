@@ -1,7 +1,6 @@
-const db = require("../../../database");
 const AccountMapper = require("../models/AccountDTO");
 
-module.exports = ({ offset, limit }) => {
+module.exports = (database, { offset, limit }) => {
   const query =
     'SELECT "id", "uuid", "user" AS "username", "createdAt", "updatedAt" ' +
     'FROM public."Accounts"' +
@@ -11,7 +10,8 @@ module.exports = ({ offset, limit }) => {
     "LIMIT $2";
 
   return new Promise((resolve, reject) => {
-    db.query(query, [offset, limit])
+    database
+      .query(query, [offset, limit])
       .then(result => {
         resolve({
           total: result.rowCount,

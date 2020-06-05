@@ -1,19 +1,17 @@
-"use strict";
-
-const db = require("../../../database");
 const AccountMapper = require("../models/AccountDTO");
 const { uuid } = require("uuidv4");
 const generateuuidv4 = uuid;
 
 const { Result, status } = require("../../helper/Result");
 
-module.exports = account => {
+module.exports = (database, account) => {
   const query =
     'INSERT INTO "Accounts" ("id", "uuid", "user", "pwd", "createdAt", "updatedAt", "deletedAt") ' +
     'VALUES (DEFAULT, $1, $2, $3, NOW(), NOW(), NULL) RETURNING "id", "uuid", "user", "createdAt", "updatedAt"';
 
   return new Promise((resolve, reject) => {
-    db.query(query, [generateuuidv4(), account.user, account.pwd])
+    database
+      .query(query, [generateuuidv4(), account.user, account.pwd])
       .then(result => {
         resolve(
           new Result({

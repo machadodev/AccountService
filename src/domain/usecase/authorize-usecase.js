@@ -1,4 +1,5 @@
 const moment = require("moment");
+const db = require("../../database");
 const {
   AuthorizationExpired,
   AuthorizationNotFound,
@@ -22,15 +23,13 @@ module.exports = class AuthorizeUseCase {
     this.usernameValidator.validate(username);
     this.passwordAuthorizationValidator.validate(pwd);
 
-    const authorization = await findAuthorizationByUsername(username);
+    const authorization = await findAuthorizationByUsername(db, username);
 
     if (!authorization) {
       throw new AuthorizationNotFound(username);
     }
 
-    const { role, password, expireAt } = await findAuthorizationByUsername(
-      username
-    );
+    const { role, password, expireAt } = authorization;
 
     if (password !== pwd) {
       throw new AuthorizationNotFoundOrPasswordIncorret(username);
@@ -40,7 +39,10 @@ module.exports = class AuthorizeUseCase {
     const expireDate = moment(expireAt);
 
     if (now > expireDate) {
-      const { affectedRows, values } = await softRemoveAuthorization(username);
+      const { affectedRows, values } = await softRemoveAuthorization(
+        db,
+        username
+      );
       throw new AuthorizationExpired(username);
     }
 

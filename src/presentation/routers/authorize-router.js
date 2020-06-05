@@ -6,8 +6,6 @@ const {
   PasswordAuthorizationValidator
 } = require("../../domain/validators");
 
-const findAllAccounts = require("../../domain/accounts/services/findAllAccounts");
-
 router.post("/authorization/authorize", async (req, res, next) => {
   try {
     const httpResponse = new HttpResponse(res);
