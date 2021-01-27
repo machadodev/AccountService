@@ -1,9 +1,9 @@
 const { Result, status } = require("../../helper/Result");
 
-module.exports = (database, person) => {
+module.exports = (database, person, account) => {
   const query =
-    'INSERT INTO "People" ("id", "firstname", "lastname", "email", "birthday", "createdAt", "updatedAt", "deletedAt") ' +
-    'VALUES (DEFAULT, $1, $2, $3, $4, NOW(), NOW(), NULL) RETURNING "id", "firstname", "email"';
+    'INSERT INTO "People" ("id", "firstname", "lastname", "email", "birthday", "createdAt", "updatedAt", "deletedAt", "accountId") ' +
+    'VALUES (DEFAULT, $1, $2, $3, $4, NOW(), NOW(), NULL, $5) RETURNING "firstname", "lastname", "email"';
 
   return new Promise((resolve, reject) => {
     database
@@ -11,7 +11,8 @@ module.exports = (database, person) => {
         person.firstname,
         person.lastname,
         person.email,
-        person.birthday
+        person.birthday,
+        account.id
       ])
       .then(result => {
         resolve(

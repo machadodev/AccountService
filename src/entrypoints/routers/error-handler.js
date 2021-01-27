@@ -6,7 +6,9 @@ const {
   AuthorizationExpired,
   AuthorizationAlreadyExists,
   AuthorizationNotFound,
-  AuthorizationNotFoundOrPasswordIncorret
+  AuthorizationNotFoundOrPasswordIncorret,
+  AccountAlreadyExists,
+  PersonAlreadyExists
 } = require("../../errors");
 
 module.exports = (err, req, res, next) => {
@@ -14,7 +16,9 @@ module.exports = (err, req, res, next) => {
 
   if (
     err instanceof ValidationError ||
-    err instanceof AuthorizationAlreadyExists
+    err instanceof AuthorizationAlreadyExists ||
+    err instanceof AccountAlreadyExists ||
+    err instanceof PersonAlreadyExists
   ) {
     return httpResponse.badRequest(err);
   } else if (

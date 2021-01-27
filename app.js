@@ -2,7 +2,7 @@
 
 const app = require("express")();
 const morgan = require("morgan");
-const routes = require("./src/presentation/routers");
+const routes = require("./src/entrypoints/routers");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -15,7 +15,6 @@ app.use(
 app.use(cors());
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
 
 routes(app);
 

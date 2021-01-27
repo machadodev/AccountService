@@ -5,6 +5,8 @@ const AuthorizationExpired = require("./AuthorizationExpired");
 const ValidationError = require("./ValidationError");
 const AuthorizationNotFound = require("./AuthorizationNotFound");
 const AuthorizationNotFoundOrPasswordIncorret = require("./AuthorizationNotFoundOrPasswordIncorret");
+const AccountAlreadyExists = require("./AccountAlreadyExists");
+const PersonAlreadyExists = require("./PersonAlreadyExists");
 
 module.exports = {
   AccountNotFound,
@@ -13,5 +15,7 @@ module.exports = {
   AuthorizationExpired,
   ValidationError,
   AuthorizationNotFound,
-  AuthorizationNotFoundOrPasswordIncorret
+  AuthorizationNotFoundOrPasswordIncorret,
+  AccountAlreadyExists,
+  PersonAlreadyExists
 };

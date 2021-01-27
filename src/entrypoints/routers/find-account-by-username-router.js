@@ -7,7 +7,7 @@ router.get("/account", async (req, res, next) => {
   try {
     const findAccountUseCase = new FindAccountUseCase(new UsernameValidator());
 
-    const { username } = req.body;
+    const { username } = req.query;
 
     const response = await findAccountUseCase.findAccountByUsername(username);
 

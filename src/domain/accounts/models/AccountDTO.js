@@ -8,7 +8,11 @@ class AccountDTO {
 
 const AccountMapper = {
   toEntity(dataValues) {
-    return new AccountDTO(dataValues);
+    if (dataValues) {
+      return new AccountDTO(dataValues);
+    } else {
+      return null;
+    }
   }
 };
 

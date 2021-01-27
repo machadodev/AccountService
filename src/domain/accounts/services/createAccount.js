@@ -7,11 +7,11 @@ const { Result, status } = require("../../helper/Result");
 module.exports = (database, account) => {
   const query =
     'INSERT INTO "Accounts" ("id", "uuid", "user", "pwd", "createdAt", "updatedAt", "deletedAt") ' +
-    'VALUES (DEFAULT, $1, $2, $3, NOW(), NOW(), NULL) RETURNING "id", "uuid", "user", "createdAt", "updatedAt"';
+    'VALUES (DEFAULT, $1, $2, $3, NOW(), NOW(), NULL) RETURNING "id", "uuid", "user" AS "username", "createdAt", "updatedAt"';
 
   return new Promise((resolve, reject) => {
     database
-      .query(query, [generateuuidv4(), account.user, account.pwd])
+      .query(query, [generateuuidv4(), account.username, account.password])
       .then(result => {
         resolve(
           new Result({

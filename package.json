@@ -4,7 +4,7 @@
   "description": "Middleware to access database of core server",
   "main": "app.js",
   "scripts": {
-    "start": "npm install && nodemon app.js",
+    "start": "nodemon app.js",
     "dev": "nodemon app.js",
     "test": "jest --watchAll",
     "test:all": "npm run test:unit && npm run test:features",

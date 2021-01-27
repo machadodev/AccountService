@@ -1,11 +1,14 @@
 FROM node:latest
 
-WORKDIR /usr/app
+WORKDIR "/application"
 
-COPY package*.json ./
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install netcat \
+    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-COPY . .
 
-EXPOSE 3000
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
 
-CMD ["npm", "start"]
+ENTRYPOINT ["docker-entrypoint.sh"]

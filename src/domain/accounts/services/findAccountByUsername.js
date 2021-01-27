@@ -7,10 +7,9 @@ module.exports = (database, username) => {
     'WHERE "user" = $1 AND "deletedAt" IS NULL';
 
   return new Promise((resolve, reject) => {
-    database.query(query, [username])
-      .then(result => {
-        resolve(AccountMapper.toEntity(result.rows[0]));
-      })
+    database
+      .query(query, [username])
+      .then(result => resolve(AccountMapper.toEntity(result.rows[0])))
       .catch(e => reject(e));
   });
 };

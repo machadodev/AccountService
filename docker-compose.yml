@@ -1,15 +1,14 @@
 version: "3"
 
 services:
-  # app:
-  #     build: .
-  #     command: npm start
-  #     ports:
-  #         - "3000:3000"
-  #     volumes:
-  #         - .:/usr/app
-  #     depends_on:
-  #         - postgres
+  app:
+      build: .
+      ports:
+          - "3000:3000"
+      volumes:
+          - .:/application
+      depends_on:
+          - postgres
   postgres:
     image: postgres:latest
     environment:

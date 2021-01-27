@@ -17,7 +17,7 @@ module.exports = class HttpResponse {
     return this.res.status(201).json({
       statusCode: 201,
       data: body,
-      message: ""
+      message: "Recurso criado"
     });
   }
 
@@ -54,7 +54,7 @@ module.exports = class HttpResponse {
   }
 
   async serverError(error) {
-    console.error("EXCEPTION:", error.message);
+    console.error("EXCEPTION:", error);
 
     return this.res.status(500).json({
       statusCode: 500,
